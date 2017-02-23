@@ -10,7 +10,7 @@ import  psutil
 def killFxProcess():
     for proc in psutil.process_iter():
            try:
-               if proc.name() == "FanXingPartner.exe":
+               if proc.name() == "FanXingPartner.exe" or proc.name() == "FanXingBanZou.exe" or proc.name() == "FxbzUpdate.exe" :
                    print ("target process id : %d , process name : %s  have been killed"% (proc.pid, proc.name()) )
                    proc.kill()
            except psutil.AccessDenied, ex:
