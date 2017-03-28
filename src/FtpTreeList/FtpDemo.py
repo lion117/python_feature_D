@@ -16,22 +16,22 @@ class DOFTP():
         MyFTP = ftplib.FTP()
         try:
             MyFTP.connect(host=HostIP,port=SerPort,timeout=5)
-            print '%s*****已经成功连接"%s"服务器FTP服务！%s' % (self.BLUE_COLOR,HostIP,self.RES)
+            print u'%s*****已经成功连接"%s"服务器FTP服务！%s' % (self.BLUE_COLOR,HostIP,self.RES)
         except (socket.error, socket.gaierror), e:
-            print '%s错误：无法访问"%s" FTP服务，请检查！错误代码为"%s"%s' % (self.RED_COLOR,HostIP,e,self.RES)
+            print u'%s错误：无法访问"%s" FTP服务，请检查！错误代码为"%s"%s' % (self.RED_COLOR,HostIP,e,self.RES)
             exit()
         try:
             MyFTP.login(user=FtpUser,passwd=FtpPasswd)
-            print '%s*****已经成功登陆"%s"服务器FTP服务！%s' % (self.BLUE_COLOR,HostIP,self.RES)
+            print u'%s*****已经成功登陆"%s"服务器FTP服务！%s' % (self.BLUE_COLOR,HostIP,self.RES)
             print MyFTP.getwelcome()#显示ftp服务器欢迎信息
         except (ftplib.error_perm), e:
-            print '%s错误：登陆失败！，请检查用户名"%s“密码"%s"是否正确！错误代码为"%s"%s' % (self.RED_COLOR,FtpUser,FtpPasswd,e,self.RES)
+            print u'%s错误：登陆失败！，请检查用户名"%s“密码"%s"是否正确！错误代码为"%s"%s' % (self.RED_COLOR,FtpUser,FtpPasswd,e,self.RES)
             exit()
         MyFTP.cwd(RootDir) #进入FTP目录
         FTP_files = MyFTP.nlst()   #取FTP当前目录内容
         if not Server_files:  #如果要下载为空，将下载该目录全部内容
             DownLists = FTP_files
-            print "FTP全部目录%s"% DownLists
+            print u"FTP全部目录%s"% DownLists
         else:
             #判断指定下载的文件是否在FTP目录中。
             DownLists = []   #下载列表
@@ -42,15 +42,15 @@ class DOFTP():
                 else:
                     NODownLists.append(line)
             if NODownLists:
-                print "%s在FTP服务器并没有指定文件%s。%s"% (self.RED_COLOR,",".join(NODownLists),self.RES)
+                print u"%s在FTP服务器并没有指定文件%s。%s"% (self.RED_COLOR,",".join(NODownLists),self.RES)
             if DownLists:
-                print "%s正在从FTP服务器下载如下文件%s。%s"% (self.BLUE_COLOR,",".join(DownLists),self.RES)
+                print u"%s正在从FTP服务器下载如下文件%s。%s"% (self.BLUE_COLOR,",".join(DownLists),self.RES)
         bufsize = 1024
         for line in DownLists:
             FileName = open(Local_dir + line,'wb').write
             MyFTP.retrbinary('RETR %s' % os.path.basename(line),FileName,bufsize)
         MyFTP.quit()
-        print "%sFTP已经成功退出。%s"% (self.BLUE_COLOR,self.RES)
+        print u"%sFTP已经成功退出。%s"% (self.BLUE_COLOR,self.RES)
 
 
 
@@ -71,8 +71,8 @@ if __name__ == "__main__":
     if os.path.exists(Local_dir)== False:  #判断本地是否有该文件目录，如果没有，将创建
         try:
             os.mkdir(Local_dir)
-            print "%s创建本地目录'%s'%s"% (s.BLUE_COLOR,Local_dir,s.RES)
+            print u"%s创建本地目录'%s'%s"% (s.BLUE_COLOR,Local_dir,s.RES)
         except:
-            print "%s无法创建本地目录'%s'，原因是无该盘符或者目录路径有问题，程序直接退出！%s"% (s.RED_COLOR,Local_dir,s.RES)
+            print u"%s无法创建本地目录'%s'，原因是无该盘符或者目录路径有问题，程序直接退出！%s"% (s.RED_COLOR,Local_dir,s.RES)
             exit() #退出程序
     s.FTP_DOWN(HostIP,SerPort,FtpUser,FtpPasswd,RootDir,Server_files,Local_dir)
