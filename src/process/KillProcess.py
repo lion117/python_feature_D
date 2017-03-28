@@ -28,10 +28,10 @@ def test():
             print(str(ex) )
     # pids = psutil.pids()
     # for pid in pids:
-    #     p = psutil.Process(pid)
-    #     print  p.name()
+    #     gProcess = psutil.Process(pid)
+    #     print  gProcess.name()
         # i_count =0
-        # if p.name() == u"FanXingPartner.exe":
+        # if gProcess.name() == u"FanXingPartner.exe":
         #     print  pid
         #     i_count +=1
         #     print  i_count

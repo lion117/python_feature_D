@@ -17,6 +17,7 @@ def Index():
     global  gIndex
     print "recive data from client %d"%gIndex
     gIndex +=1
+    print request.data
     return  "POST ok"
     # if request.method == "POST":
     #     print "POST method"
@@ -30,6 +31,8 @@ def Index():
 def API():
     print "test"
     if request.method == "POST":
+        print request.form.__sizeof__()
+        print request.form["group"]
         print "POST method"
         return "OK"
     elif request.method == "GET":
