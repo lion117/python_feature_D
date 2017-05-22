@@ -12,8 +12,8 @@ from time import ctime
 import  threading
 
 HOST ='127.0.0.1'
-PORT = 36484
-PORT1 = 23058
+PORT =  23058
+PORT1 = 36484
 PORT2 = 843
 BUFSIZ = 1024
 
@@ -67,11 +67,45 @@ def run3():
             tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
         tcpCliSock.close()
 
-iThread843 = threading.Thread(target=run3)
-iThread843.start()
-time.sleep(0.1)
-iThread = threading.Thread(target=run)
-iThread.start()
-run2()
+def Test843():
+    iThread843 = threading.Thread(target=run3)
+    iThread843.start()
+
+def TestComm():
+    iThread = threading.Thread(target=run)
+    iThread.start()
+    run2()
+
+def TestAll():
+    iThread843 = threading.Thread(target=run3)
+    iThread843.start()
+    time.sleep(0.1)
+    iThread = threading.Thread(target=run)
+    iThread.start()
+    run2()
 
 
+def UserInterActivate():
+    iHelp =u'''请输入命令：
+    1. 占用通信端口
+    2. 占用flash端口
+    3. 占用以上所有端口
+    >
+    '''
+    while(True):
+        print(iHelp)
+        iIndex = raw_input()
+        if iIndex == '1':
+            TestComm()
+        elif iIndex == '2':
+            Test843()
+        elif iIndex == '3':
+            TestAll()
+        else:
+            print u"用户输入错误,请输入[1,3]之间的数值"
+
+
+
+
+if __name__ == "__main__":
+    UserInterActivate()
