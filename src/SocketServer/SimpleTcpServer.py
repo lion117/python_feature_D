@@ -31,8 +31,9 @@ def run():
 
         while True:
             data = tcpCliSock.recv(BUFSIZ)
-            if not data:break
-            tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
+            print data
+            # if not data:break
+            # tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
         tcpCliSock.close()
 
 def run2():
@@ -47,8 +48,9 @@ def run2():
 
         while True:
             data = tcpCliSock.recv(BUFSIZ)
-            if not data:break
-            tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
+            print data
+            # if not data:break
+            # tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
         tcpCliSock.close()
 
 def run3():
@@ -63,8 +65,9 @@ def run3():
 
         while True:
             data = tcpCliSock.recv(BUFSIZ)
-            if not data:break
-            tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
+            print data
+            # if not data:break
+            # tcpCliSock.send(bytes('[%s] %s' % (ctime(), 'utf-8'), data))
         tcpCliSock.close()
 
 def Test843():
@@ -90,7 +93,6 @@ def UserInterActivate():
     1. 占用通信端口
     2. 占用flash端口
     3. 占用以上所有端口
-    >
     '''
     while(True):
         print(iHelp)
