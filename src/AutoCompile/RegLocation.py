@@ -21,6 +21,13 @@ def GetNsisPath():
     iTool = unicode(value) + u"makensis.exe"
     return  iTool
 
+def GetGitPath():
+    key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,r"SOFTWARE\Wow6432Node\NSIS")
+    value,type = _winreg.QueryValueEx(key,"")
+    iTool = unicode(value) + u"git.exe"
+    return  iTool
+
+
 
 if __name__ == "__main__":
     print  GetVS12ToolPath()
