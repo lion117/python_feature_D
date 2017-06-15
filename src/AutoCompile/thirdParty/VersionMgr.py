@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+import os, sys
+import time
+import  re
+
 # source taken from
 # http://stackoverflow.com/questions/4003725/modifying-rc-file-with-python-regexp-involved
 
-# target_version =  "2,3,4,5"
+
 
 def set_rc_version(rcfile, target_version):
     with open(rcfile, "r+") as f:
@@ -35,4 +40,4 @@ def set_rc_version(rcfile, target_version):
         f.truncate()
 
 
-#set_rc_version(r"C:/repo/projectA/resources/win/projectA.rc", "3,4,5,6")
+#SetRcVersion(r"C:/repo/projectA/resources/win/projectA.rc", "3,4,5,6")
