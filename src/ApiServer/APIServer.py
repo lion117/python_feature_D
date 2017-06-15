@@ -29,7 +29,7 @@ def Index():
 
 @app.route('/api',methods=['GET','POST'])
 def API():
-    print "test"
+    print "ShowLove"
     if request.method == "POST":
         print request.form.__sizeof__()
         print request.form["group"]
