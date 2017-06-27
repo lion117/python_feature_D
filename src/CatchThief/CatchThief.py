@@ -43,6 +43,10 @@ def ParseVideo(tFile):
     # 初始化视频流的第一帧
     firstFrame = None
     lIndex = 0
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    lFileName = str.format("output_%s"%tFile)
+    lOutPutWriter = cv2.VideoWriter(lFileName,fourcc, 20.0, (640,480))
+
     while True:
         # 获取当前帧并初始化occupied/unoccupied文本
         (grabbed, frame) = camera.read()
@@ -103,12 +107,14 @@ def ParseVideo(tFile):
             cv2.imshow("Security Feed", frame)
             cv2.imshow("Thresh", thresh)
             cv2.imshow("Frame Delta", frameDelta)
+            lOutPutWriter.write(frame)
             # 如果q键被按下，跳出循环
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
     # 清理摄像机资源并关闭打开的窗口
     camera.release()
+    lOutPutWriter.release()
     cv2.destroyAllWindows()
     print u"done release source"
 
