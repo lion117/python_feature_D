@@ -14,10 +14,10 @@ import time
 import cv2
 
 
-g_miniArea = 15
-g_grabValue = 15
-g_updateEclipse = 24*60*30
-# g_updateEclipse = 30
+g_miniArea = 150
+g_grabValue = 60
+# g_updateEclipse = 24*60*30
+g_updateEclipse = 8000
 
 def ParseCmdLine():
     # 创建参数解析器并解析参数
@@ -44,7 +44,7 @@ def ParseVideo(tFile):
     firstFrame = None
     lIndex = 0
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    lFileName = str.format("output_%s"%tFile)
+    lFileName = str.format("output_%s.avi"%tFile)
     lOutPutWriter = cv2.VideoWriter(lFileName,fourcc, 20.0, (640,480))
 
     while True:
@@ -59,7 +59,7 @@ def ParseVideo(tFile):
             break
 
         # 调整该帧的大小，转换为灰阶图像并且对其进行高斯模糊
-        frame = imutils.resize(frame, width=500)
+        frame = imutils.resize(frame, width=640,height=480)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
@@ -88,14 +88,14 @@ def ParseVideo(tFile):
             area = cv2.contourArea(c)
             if area < g_miniArea:
                 # print "\r",
-                print u"ignore contour as too small skip: %d "%area
+                # print u"ignore contour as too small skip: %d "%area
                 continue
             # compute the bounding box for the contour, draw it on the frame,
             # and update the text
             # 计算轮廓的边界框，在当前帧中画出该框
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            text = "index: %d cataglory: %d"%(lIndex,lIndex%g_updateEclipse)
+            text = "index: %d page: %d diff: %7d  "%(lIndex,lIndex/g_updateEclipse,area,)
             # draw the text and timestamp on the frame
             # 在当前帧上写文字以及时间戳
             cv2.putText(frame, "{}".format(text), (10, 15),
@@ -103,11 +103,13 @@ def ParseVideo(tFile):
             # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
             #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
+            lOutPutWriter.write(frame)
             #显示当前帧并记录用户是否按下按键
             cv2.imshow("Security Feed", frame)
-            cv2.imshow("Thresh", thresh)
+            # cv2.imshow("Thresh", thresh)
             cv2.imshow("Frame Delta", frameDelta)
-            lOutPutWriter.write(frame)
+
+            print u"record index %d"%lIndex
             # 如果q键被按下，跳出循环
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -160,7 +162,7 @@ def TestSaveVideo():
     cap = cv2.VideoCapture(0)
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+    out = cv2.VideoWriter('output.mp4',fourcc, 20.0, (640,480))
 
     while(cap.isOpened()):
         ret, frame = cap.read()
@@ -181,7 +183,7 @@ def TestSaveVideo():
 
 
 if __name__ == "__main__":
-    lFile = "test3.mp4"
+    lFile = "test.mp4"
     ParseVideo(lFile)
     # TestPlayFile()
     # TestPlayCamera()
