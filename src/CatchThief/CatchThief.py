@@ -14,9 +14,10 @@ import time
 import cv2
 
 
-g_miniArea = 150
+g_miniArea = 15
 g_grabValue = 15
-
+g_updateEclipse = 24*60*30
+# g_updateEclipse = 30
 
 def ParseCmdLine():
     # 创建参数解析器并解析参数
@@ -64,8 +65,9 @@ def ParseVideo(tFile):
             print u"第一帧是None，对其进行初始化"
             continue
         # 每个1小时自动更新对比图片
-        if lIndex%86400 == 0:
+        if lIndex%g_updateEclipse == 0:
             firstFrame = gray
+            print u"update bkimage %d"%lIndex
 
         # 计算当前帧和第一帧的不同
         frameDelta = cv2.absdiff(firstFrame, gray)
@@ -89,20 +91,18 @@ def ParseVideo(tFile):
             # 计算轮廓的边界框，在当前帧中画出该框
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            text = "Occupied"
+            text = "index: %d cataglory: %d"%(lIndex,lIndex%g_updateEclipse)
             # draw the text and timestamp on the frame
             # 在当前帧上写文字以及时间戳
-            cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
+            cv2.putText(frame, "{}".format(text), (10, 15),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-                        (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+            # cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+            #             (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 
             #显示当前帧并记录用户是否按下按键
             cv2.imshow("Security Feed", frame)
             cv2.imshow("Thresh", thresh)
             cv2.imshow("Frame Delta", frameDelta)
-            print u"change image"
-            key = cv2.waitKey(1)
             # 如果q键被按下，跳出循环
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -148,9 +148,35 @@ def TestPlayCamera():
     cap.release()
     cv2.destroyAllWindows()
 
+def TestSaveVideo():
+    import numpy as np
+    import cv2
+    cap = cv2.VideoCapture(0)
+    # Define the codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret==True:
+            frame = cv2.flip(frame,0)
+            # write the flipped frame
+            out.write(frame)
+            cv2.imshow('frame',frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        else:
+            break
+
+    # Release everything if job is finished
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     lFile = "test3.mp4"
     ParseVideo(lFile)
     # TestPlayFile()
     # TestPlayCamera()
+    # TestSaveVideo()
