@@ -15,9 +15,9 @@ import cv2
 
 
 g_miniArea = 150
-g_grabValue = 60
+g_grabValue = 80
 # g_updateEclipse = 24*60*30
-g_updateEclipse = 8000
+g_updateEclipse = 10
 
 def ParseCmdLine():
     # 创建参数解析器并解析参数
@@ -41,11 +41,13 @@ def ParseVideo(tFile):
         print u"file is not exist %s"%tFile
         return
     # 初始化视频流的第一帧
+    dWidth = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH ))
+    dHeight =int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
     firstFrame = None
     lIndex = 0
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     lFileName = str.format("output_%s.avi"%tFile)
-    lOutPutWriter = cv2.VideoWriter(lFileName,fourcc, 20.0, (640,480))
+    lOutPutWriter = cv2.VideoWriter(lFileName,fourcc, 20.0, (dWidth,dHeight))
 
     while True:
         # 获取当前帧并初始化occupied/unoccupied文本
@@ -59,7 +61,7 @@ def ParseVideo(tFile):
             break
 
         # 调整该帧的大小，转换为灰阶图像并且对其进行高斯模糊
-        frame = imutils.resize(frame, width=640,height=480)
+        frame = imutils.resize(frame, width=dWidth,height=dHeight)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
@@ -105,9 +107,9 @@ def ParseVideo(tFile):
 
             lOutPutWriter.write(frame)
             #显示当前帧并记录用户是否按下按键
-            cv2.imshow("Security Feed", frame)
-            # cv2.imshow("Thresh", thresh)
-            cv2.imshow("Frame Delta", frameDelta)
+            # cv2.imshow("Security Feed", frame)
+            # # cv2.imshow("Thresh", thresh)
+            # cv2.imshow("Frame Delta", frameDelta)
 
             print u"record index %d"%lIndex
             # 如果q键被按下，跳出循环
@@ -183,7 +185,7 @@ def TestSaveVideo():
 
 
 if __name__ == "__main__":
-    lFile = "test.mp4"
+    lFile = "test3.mp4"
     ParseVideo(lFile)
     # TestPlayFile()
     # TestPlayCamera()
