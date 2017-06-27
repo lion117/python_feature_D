@@ -36,8 +36,8 @@ def ParseVideo(tFile):
         # 获取当前帧并初始化occupied/unoccupied文本
         (grabbed, frame) = camera.read()
         lIndex += 1
-        print "\r",
-        print "index  %d %s"%(lIndex, tFile),
+        # print "\r",
+        print "index  %d %s"%(lIndex, tFile)
         # 如果不能抓取到一帧，说明我们到了视频的结尾
         if not grabbed:
             print u"end of video"
