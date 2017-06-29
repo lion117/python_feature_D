@@ -104,17 +104,6 @@ def ParseVideo(tFile):
     print u"done release source %s"%tFile
 
 
-def ParseCmdLine():
-    # 创建参数解析器并解析参数
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-v", "--video", help="path to the video file")
-    ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area size")
-    args = vars(ap.parse_args())
-    # 如果video参数为None，那么我们从摄像头读取数据
-    if args.get("video", None) is None:
-        return  None
-    else:
-        return args.get("video")
 
 
 def ImgToEQWithWindow(tFile):

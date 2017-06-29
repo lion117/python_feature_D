@@ -5,7 +5,7 @@
 import os, sys
 import subprocess as subp
 import threading
-
+from GlobalCongif import *
 
 
 def WalkTargetFiles(tDir, tExt):
@@ -15,9 +15,6 @@ def WalkTargetFiles(tDir, tExt):
             if os.path.splitext(itorFile)[1] == tExt:
                 iList.append(itorFile)
     return iList
-
-def SetupProcess(tFile):
-    subp.call(["C:\\Python27\\python.exe","Multi_CatchThief.py","-v",tFile])
 
 
 def BatchRename(tDir, tFormat):
@@ -29,17 +26,25 @@ def BatchRename(tDir, tFormat):
         os.rename(lList[itor],lStrName)
 
 
-def Run():
-    iList = WalkTargetFiles(os.getcwd(), '.mp4')
-    for itor in iList:
-        print u"Setup Process filename :%s"%itor
-        lThread =threading.Thread(target=SetupProcess,args=(itor,))
-        lThread.start()
+def SetupProcess(tFile):
+    subp.call(["C:\\Python27\\python.exe","VideoDealing.py","-v",tFile])
+
+
+
+
+
+def BeginFilterVideo():
+    for iExt in g_extList:
+        iList = WalkTargetFiles(os.getcwd(), iExt)
+        for itor in iList:
+            print u"Setup Process filename :%s"%itor
+            lThread =threading.Thread(target=SetupProcess,args=(itor,))
+            lThread.start()
 
 
 
 if __name__ == "__main__":
-    # Run()
+    # BeginFilterVideo()
     # BatchRename(os.getcwd(),"face_in_%04d.png")
     pass
 
