@@ -117,10 +117,57 @@ def ParseCmdLine():
         return args.get("video")
 
 
+def ImgToEQWithWindow(tFile):
+    if os.path.exists(tFile) is False:
+        print "file is not exist %s"%tFile
+        return
+    image = cv2.imread(tFile, 0)
+    result = cv2.equalizeHist(image)
+    cv2.imshow(tFile, result)
+    lFileName = str.format("EQ_%s"%tFile)
+    cv2.imwrite(lFileName, result)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    print "done"
+
+
+def CVImgToEQ(tFile):
+    if os.path.exists(tFile) is False:
+        print u"file is not exist %s" % tFile
+        return
+    image = cv2.imread(tFile, 0)
+    result = cv2.equalizeHist(image)
+    lFileName = str.format("EQ_%s" % tFile)
+    cv2.imwrite(lFileName, result)
+
+
+
+def ImgConvertor(tImg):
+    if tImg is None:
+        print u"timg is none"
+        return
+    return cv2.equalizeHist(tImg)
+
+def WalkTargetFiles(tDir, tExt):
+    iList = []
+    for (dirpath, dirnames, filenames) in os.walk(tDir):
+        for itorFile in filenames:
+            if os.path.splitext(itorFile)[1] == tExt:
+                iList.append(itorFile)
+    return iList
+
+def BatchEQImg():
+    lList = WalkTargetFiles(os.getcwd(), ".png")
+    for itor in lList:
+        CVImgToEQ(itor)
+
+
 if __name__ == "__main__":
-    lFile = ParseCmdLine()
-    if lFile is not None:
-        print u"%s"%lFile
-        ParseVideo(lFile)
-    else:
-        print "cmd is null"
+    # lFile = ParseCmdLine()
+    # if lFile is not None:
+    #     print u"%s"%lFile
+    #     ParseVideo(lFile)
+    # else:
+    #     print "cmd is null"
+    # ImgToEQWithWindow("face_in_0000.png")
+    BatchEQImg()
