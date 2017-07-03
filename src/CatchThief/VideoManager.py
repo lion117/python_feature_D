@@ -5,9 +5,7 @@
 import os, sys
 import subprocess as subp
 import threading
-
 import time
-
 import GlobalCongif
 
 
@@ -57,7 +55,7 @@ def BeginFilterVideo():
             print u"Setup Process for dealing filename :%s"%itor
             lThread =threading.Thread(target=SetupProcess,args=(itor,GetDestFileName(itor)))
             lThread.start()
-            EnsureProcessBalance(GlobalCongif.g_exeFile,GlobalCongif.g_processCount)
+            # EnsureProcessBalance(GlobalCongif.g_exeFile,GlobalCongif.g_processCount)
 
 def GetDestFileName(tFile):
     if os.path.exists(GlobalCongif.g_destDir) is False:

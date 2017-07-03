@@ -10,7 +10,7 @@ import py2exe
 
 
 
-setup(console=["VideoManager.py"],
+setup(console=["CatchThiefFilter.py"],
       options={"py2exe":{
                   "compressed": True ,
                   "optimize": 2,

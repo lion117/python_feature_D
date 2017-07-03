@@ -2,11 +2,9 @@
 
 
 
-import sys
-from GlobalCongif import  *
-from UserInterActivate import  *
-# from VideoManager import *
 
+import GlobalCongif
+from UserInterActivate import  *
 
 
 if __name__ == "__main__":
