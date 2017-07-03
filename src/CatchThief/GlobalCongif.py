@@ -12,8 +12,12 @@ g_destDir = ""
 g_extList= [".mp4",".avi","mpeg"]
 g_exeFile  = ""
 
+def SetHelp(thelp):
+    global g_help
+    g_help = thelp
 
-g_help = '''
+
+g_help = u'''
 使用说明：
 
 

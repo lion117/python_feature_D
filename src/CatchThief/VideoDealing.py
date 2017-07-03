@@ -14,14 +14,28 @@ g_miniArea = 150
 g_grabValue = 80
 # g_updateEclipse = 24*60*30
 g_updateEclipse = 10
+import GlobalCongif
 
 
-def ParseVideo(tFile):
-    if os.path.exists(tFile):
-        camera = cv2.VideoCapture(tFile)
-        print u"load file into opencv %s"%tFile
+def GetDestFileName(tFile):
+    # if os.path.exists(os.path.dirname(tFile)) is False:
+    #     os.makedirs(os.path.join(os.path.dirname(tFile)))
+    lDestPath = os.path.join(os.path.dirname(tFile),"output")
+    if os.path.exists(lDestPath) is False:
+        os.mkdir(lDestPath)
+    lOutFile = str.format("out_%s.mkv"%(os.path.basename(tFile)))
+    lOutFile = os.path.join(lDestPath,lOutFile)
+    if os.path.exists(lOutFile):
+        os.remove(lOutFile)
+    return  lOutFile
+
+
+def ParseVideo(tSrcFile, tDestFile):
+    if os.path.exists(tSrcFile):
+        camera = cv2.VideoCapture(tSrcFile)
+        print u"load file into opencv %s" % tSrcFile
     else:
-        print u"file is not exist %s"%tFile
+        print u"file is not exist %s" % tSrcFile
         return
     # 初始化视频流的第一帧
     dWidth = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH ))
@@ -29,7 +43,8 @@ def ParseVideo(tFile):
     firstFrame = None
     lIndex = 0
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    lFileName = str.format("output_%s.avi"%tFile)
+    if tDestFile is None:
+        lFileName = GetDestFileName(tSrcFile)
     lOutPutWriter = cv2.VideoWriter(lFileName,fourcc, 20.0, (dWidth,dHeight))
 
     while True:
@@ -37,7 +52,7 @@ def ParseVideo(tFile):
         (grabbed, frame) = camera.read()
         lIndex += 1
         # print "\r",
-        print "index  %d %s"%(lIndex, tFile)
+        print "index  %d %s"%(lIndex, tSrcFile)
         # 如果不能抓取到一帧，说明我们到了视频的结尾
         if not grabbed:
             print u"end of video"
@@ -101,7 +116,7 @@ def ParseVideo(tFile):
     camera.release()
     lOutPutWriter.release()
     cv2.destroyAllWindows()
-    print u"done release source %s"%tFile
+    print u"done release source %s" % tSrcFile
 
 
 
@@ -159,4 +174,5 @@ if __name__ == "__main__":
     # else:
     #     print "cmd is null"
     # ImgToEQWithWindow("face_in_0000.png")
-    BatchEQImg()
+    # BatchEQImg()
+    GetDestFileName(sys.argv[0])

@@ -10,5 +10,5 @@ from UserInterActivate import  *
 
 
 if __name__ == "__main__":
-    g_exeFile = sys.argv[0]
+    GlobalCongif.g_exeFile = sys.argv[0]
     RunUserTerminator()
