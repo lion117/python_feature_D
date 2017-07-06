@@ -36,7 +36,7 @@ def FindPythonPath():
 
 
 def SetupProcess(tSrc, tDest):
-    if GlobalCongif.g_exeFile.find(".py"):
+    if GlobalCongif.g_exeFile.find(".py") !=-1:
         if tDest is None:
             subp.call([FindPythonPath(),GlobalCongif.g_exeFile,"-sf",tSrc])
         else:
