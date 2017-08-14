@@ -8,7 +8,7 @@ import py2exe
 
 
 
-setup(console=["pyCleaner.py"],
+setup(console=["ProcessManager.py"],
       options={"py2exe": {
           "compressed": True,
           "optimize": 2,
