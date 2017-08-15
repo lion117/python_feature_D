@@ -7,6 +7,7 @@ import time
 import re
 import csv
 import datetime
+import platform
 
 def FilterTimeList(tFileName):
     with open(tFileName) as lFile:
@@ -23,8 +24,8 @@ def FilterTimeList(tFileName):
 
 def WriteData(tList):
     lAvarange = GetAverage(tList)
-    print u"software average time is %d"%lAvarange
-    lFileName = str.format("%0.2fms_%s.csv"%(GetAverage(tList), GetDataTime()))
+    print u"平均启动时长为  %d"%lAvarange
+    lFileName = str.format("%0.2fms_%s_%s.csv"%(GetAverage(tList), GetDataTime(),platform.platform()))
     header = ['time']
     with open(lFileName,'wb') as f:
         f_csv = csv.writer(f, header)
@@ -61,7 +62,6 @@ def AnalyzeLog():
 def GetFxLogPath():
     appdata = os.getenv("APPDATA")
     lLog = os.path.join(appdata,"FXbanzou/log.txt")
-    print lLog
     return  lLog
 
 
@@ -78,3 +78,4 @@ if __name__ == "__main__":
     # WriteData(lList)
     # print  GetDataTime()
     AnalyzeLog()
+    # print platform.version()

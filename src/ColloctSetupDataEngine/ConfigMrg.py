@@ -6,8 +6,8 @@ import os, sys
 import time
 import ConfigParser
 
-g_exeFile = u"D:\\360极速浏览器下载\\酷狗直播伴侣\\FanXingBanZou.exe"
-g_Times = 30
+g_exeFile = u"C:\\Program Files (x86)\\FanXingBanZou\\FanXingBanZou.exe"
+g_Times = 20
 
 
 def ReadConfig():
@@ -30,6 +30,7 @@ def ReadConfig():
         lCfg = ConfigParser.ConfigParser()
         lCfg.read(lCfgFile)
         g_exeFile = lCfg.get("info","exe")
+        g_exeFile = g_exeFile.decode("gbk")
         g_Times = lCfg.getint("info","times")
         return (g_exeFile, g_Times)
     except Exception,exinfo:

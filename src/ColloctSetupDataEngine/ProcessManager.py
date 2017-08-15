@@ -58,14 +58,15 @@ class ColloctSetupDataEngine():
     def CleanEnv(self):
         hwnd = IsWndExist()
         killFxProcess()
-        print u"clean fanxingbanzou process clean"
+        print u"清理伴奏环境"
         time.sleep(1)
         lLog = CollectData.GetFxLogPath()
         if os.path.exists(lLog):
             os.remove(lLog)
-            print u"clean log"
+            print u"删除日志文件"
         if os.path.exists(self._exeFile) is False:
-            print "Target Process is not exist %s"%self._exeFile
+            print u"目标进程不存在 %s"%self._exeFile
+            print u"请重新配置config.ini文件exe的路径"
             return  False
         else:
             return True
@@ -75,10 +76,11 @@ class ColloctSetupDataEngine():
     def RunTask(self):
         if self.CleanEnv() is False:
             return
-        print u"begin to setup software for %d times"%self._setupTimes
+        print u"开始启动进程测试共计 %d 次"%self._setupTimes
         while(self._setupTimes> 0):
-            print u"setup process %d"%self._setupTimes
-            pid = SetupFxProcess(g_path)
+            print "\r",
+            print u"启动进程测试 %d"%self._setupTimes ,
+            pid = SetupFxProcess(self._exeFile)
             if pid == 0:
                 print u"setup process failed , software exist"
                 break
@@ -95,6 +97,10 @@ class ColloctSetupDataEngine():
 
 
 
+def Run():
+    lExeFile, lTimes = ConfigMrg.ReadConfig()
+    lEngin = ColloctSetupDataEngine(tExeFile=lExeFile, tTimes=lTimes)
+    lEngin.RunTask()
 
 
 if __name__ == "__main__":

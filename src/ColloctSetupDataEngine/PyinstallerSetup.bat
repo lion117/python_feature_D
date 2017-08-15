@@ -1,1 +1,1 @@
-pyinstaller  ProcessManager.py -F
+pyinstaller  UserInteractive.py -F
