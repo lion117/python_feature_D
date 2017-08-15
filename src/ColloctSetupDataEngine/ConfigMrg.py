@@ -6,7 +6,7 @@ import os, sys
 import time
 import ConfigParser
 
-g_exeFile = u"C:\\Program Files (x86)\\FanXingBanZou\\FanXingBanZou.exe"
+g_exeFile = u"C:\\Program Files (x86)\\FanXingBanZou\\FxbzUpdate.exe"
 g_Times = 20
 
 

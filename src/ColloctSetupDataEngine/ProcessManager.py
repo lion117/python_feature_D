@@ -39,7 +39,7 @@ def killFxProcess():
     for proc in psutil.process_iter():
         try:
             if proc.name() == "FanXingPartner.exe" or proc.name() == "FanXingBanZou.exe" or proc.name() == "FxbzUpdate.exe":
-                print ("target process id : %d , process name : %s  have been killed" % (proc.pid, proc.name()))
+                # print ("target process id : %d , process name : %s  have been killed" % (proc.pid, proc.name()))
                 proc.kill()
         except psutil.AccessDenied, ex:
             # print(str(ex))
@@ -88,7 +88,8 @@ class ColloctSetupDataEngine():
                 time.sleep(3)
                 while(IsWndExist() is None):
                     time.sleep(1)
-                KillProcess(pid)
+                # KillProcess(pid)
+                killFxProcess()
                 self._setupTimes -= 1
                 while(IsWndExist()):
                     time.sleep(1)

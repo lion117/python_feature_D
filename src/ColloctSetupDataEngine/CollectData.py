@@ -24,8 +24,8 @@ def FilterTimeList(tFileName):
 
 def WriteData(tList):
     lAvarange = GetAverage(tList)
-    print u"平均启动时长为  %d"%lAvarange
-    lFileName = str.format("%0.2fms_%s_%s.csv"%(GetAverage(tList), GetDataTime(),platform.platform()))
+    print u"共有数据 %d 项, 平均启动时长为  %d"%(len(tList), lAvarange)
+    lFileName = str.format("%0.2fms_%dCounts_%s_%s.csv"%(GetAverage(tList),len(tList), GetDataTime(),platform.platform()))
     header = ['time']
     with open(lFileName,'wb') as f:
         f_csv = csv.writer(f, header)
