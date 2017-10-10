@@ -8,11 +8,12 @@ import re
 import csv
 import datetime
 import platform
+import chardet
 
 def FilterTimeList(tFileName):
     with open(tFileName) as lFile:
         lBuff = lFile.read()
-        lContext = lBuff.decode("GBK")
+        lContext = lBuff.decode("gbk")
         lCompile = re.compile(ur"\[delay time\]\sonshowwindow:\s\d*")
         lGroup = lCompile.findall(lContext)
         lList = []
