@@ -1,0 +1,1 @@
+pyinstaller  Xlwt.py -F
