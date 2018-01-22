@@ -1,0 +1,1 @@
+pyinstaller  AutoJumpPage.py -F
