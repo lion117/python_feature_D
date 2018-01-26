@@ -2,8 +2,9 @@
 
 import sys, os, time
 import re
-import demjson
+# import demjson
 import  json
+import  ElkReporter
 
 
 class CrashData():
@@ -158,18 +159,48 @@ def GenerateUserCrashData():
                 itor.crashdict = lDict
                 lList.append(itor)
     lRet = ConverntToJson(lList)
+
+    lLimit = 0
+    for itor in lRet:
+        lLimit += 1
+        if lLimit > 3:
+            break
+        ElkReporter.ReportElk(itor)
+
+
     return  lRet
 
 def ConverntToJson(tList):
     lJson =[]
 
     for itor in tList:
-        lUnit = {}
+        lUnit = GenerateJsonhead(u"crash",u"usercrash")
         lUnit[u"mac"] = itor.mac
         lUnit[u"total"] = itor.total
         lUnit[u"crash"] = itor.crashdict
         lJson.append(lUnit)
     return  lJson
+
+
+def GenerateJsonhead(tProject , tLogType):
+    lRoot = {}
+    lRoot[u"group"] = u"fxclient"
+    lRoot[u"log_time"] = u"0"
+    lRoot[u"is_trusted_time"] = u"no"
+    lRoot[u"project"] = tProject
+    lRoot[u"log_type"] = tLogType
+    lRoot[u"local_time"] = u""
+    # custmize item
+    lRoot[u"version"] = u""
+    lRoot[u"date"] = u""
+    return  lRoot
+
+
+
+def GetToday(tFmt=u"%Y-%m-%d %H:%M:%S"):
+    import datetime
+    today = datetime.date.today()
+    return unicode.format(tFmt%(today.year,today.month,today.day))
 
 
 
@@ -183,4 +214,5 @@ if __name__ == "__main__":
     # lobj = ConvertUserData(FilterUserInfo(lData))
     # lobj = ConvertUserModule(FilterUserModule(lData))
     # print json.dumps(lobj,indent=4)
-    print GenerateUserCrashData()
+    ljson = GenerateUserCrashData()
+    # print json.dumps(ljson , indent= 4)
