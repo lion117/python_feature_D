@@ -1,0 +1,1 @@
+pyinstaller  FkAIWall.py -F
